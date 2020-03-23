@@ -264,7 +264,9 @@ private class BloopPants(
     // NOTE(olafur): generate synthetic projects to improve the file tree view
     // in IntelliJ. Details: https://github.com/olafurpg/intellij-bsp-pants/issues/7
     val syntheticProjects: List[C.Project] = sourceRoots.flatMap { root =>
-      if (isBaseDirectory(root.toNIO) || args.export.noRootProject) {
+      if (isBaseDirectory(root.toNIO) || projects.exists(
+          p => p.sources.exists(_.getParent == root.toNIO)
+        )) {
         Nil
       } else {
         val name = root
@@ -387,8 +389,8 @@ private class BloopPants(
         .flatMap(export.targets.get)
         .getOrElse(dependency)
     } yield acyclicDependency.classesDir(bloopDir))
-    classpath ++= libraries.iterator.flatMap(library =>
-      library.nonSources.map(path => toImmutableJar(library, path))
+    classpath ++= libraries.iterator.flatMap(
+      library => library.nonSources.map(path => toImmutableJar(library, path))
     )
     classpath ++= allScalaJars
     if (target.targetType.isTest) {
@@ -636,7 +638,9 @@ private class BloopPants(
         path.filename != "bloop.settings.json" &&
         !generatedProjects(path.toNIO)
       }
-      .foreach { path => Files.deleteIfExists(path.toNIO) }
+      .foreach { path =>
+        Files.deleteIfExists(path.toNIO)
+      }
   }
 
   // See https://github.com/scalatest/scalatest/pull/1739
