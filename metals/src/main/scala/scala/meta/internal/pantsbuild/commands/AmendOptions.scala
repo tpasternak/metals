@@ -8,10 +8,17 @@ import metaconfig.generic._
 case class AmendOptions(
     @Hidden() @ExtraName("remainingArgs")
     projects: List[String] = Nil,
+    @Description(
+      "New list of target addresses for the project (comma-separated)"
+    )
+    addressesList: Option[String] = None,
     @Inline open: OpenOptions = OpenOptions(),
     @Inline export: ExportOptions = ExportOptions(),
     @Inline common: SharedOptions = SharedOptions()
-)
+) {
+  def targetsToAmend: Option[List[String]] =
+    addressesList.map(_.split(",")).map(_.toList)
+}
 
 object AmendOptions {
   val default: AmendOptions = AmendOptions()
