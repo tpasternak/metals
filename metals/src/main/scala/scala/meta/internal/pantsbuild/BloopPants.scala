@@ -443,11 +443,11 @@ private class BloopPants(
     val javaHome: Option[Path] =
       target.platform.map(Paths.get(_))
 
-    val resources: Option[List[Path]] =
-      if (!target.targetType.isResourceOrTestResource) None
-      else {
-        Some(List(baseDirectory))
-      }
+    val resources: Option[List[Path]] = None
+    //   if (!target.targetType.isResourceOrTestResource) None
+    //   else {
+    //     Some(List(baseDirectory))
+    //   }
 
     val sourceRoots = BloopPants.approximateSourceRoot(baseDirectory).toList
 
