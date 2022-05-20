@@ -790,7 +790,7 @@ object MetalsEnrichments
         })
         .filter(_ != "javac-classes-directory")
         .map(AbsolutePath(_))
-        .getOrElse(item.getClassDirectory.toAbsolutePath)
+        .getOrElse(AbsolutePath(Paths.get("semdb").toAbsolutePath))
     }
 
     def isSemanticdbEnabled: Boolean = {

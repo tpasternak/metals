@@ -93,7 +93,7 @@ final class BuildTools(
     if (isGradle) buf += "Gradle"
     if (isMaven) buf += "Maven"
     if (isPants) buf += "Pants"
-    if (isBazel) buf += "Bazel"
+//    if (isBazel) buf += "Bazel"
     buf.result()
   }
 

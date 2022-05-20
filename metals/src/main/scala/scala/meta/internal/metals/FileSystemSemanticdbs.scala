@@ -67,7 +67,10 @@ final class FileSystemSemanticdbs(
       workspace: AbsolutePath
   ): Option[FoundSemanticDbPath] = {
     val semanticdbpath = targetroot.resolve(semanticdbRelativePath)
+    val altsemanticdbpath = workspace.resolve("semdb").resolve(semanticdbRelativePath)
+    scribe.info(s"altsem ${altsemanticdbpath}")
     if (semanticdbpath.isFile) Some(FoundSemanticDbPath(semanticdbpath, None))
+    else if(altsemanticdbpath.isFile) Some(FoundSemanticDbPath(altsemanticdbpath, None))
     else {
       // needed in case sources are symlinked,
       for {

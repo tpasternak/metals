@@ -76,7 +76,8 @@ object ScalaVersions {
   }
 
   def scalaBinaryVersionFromFullVersion(scalaVersion: String): String = {
-    if (scalaVersion.startsWith("3"))
+    if(scalaVersion == null) "2.13"
+    else if (scalaVersion.startsWith("3"))
       "3"
     else
       scalaVersion.split('.').take(2).mkString(".")
